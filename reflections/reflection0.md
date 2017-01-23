@@ -1,0 +1,3 @@
+## Reflection 0 ##
+
+We formed our team around common interests in networking, operating systems, and graphics.  We would like to develop a project that is extensible and can involve all of these topics in some way, and for that reason our final goal for Project 1 is to build a server in C.  I volunteered to be scrum master, since I have been actively using it for SCOPE.  At this point in our project, all members of our team have similar responsibilities.  We are front-loading the class readings and project research this week, which includes reading through a networking server guide before re-evaluating a feasible final deliverable.  I am currently apprehensive about solidifying a plan for developing our server early enough in the project.
