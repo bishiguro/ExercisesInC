@@ -67,12 +67,11 @@ int main()
 	char card_name[3];
 	int count = 0;
 	do {
+		int val = 0;
 		card_input(card_name);
-		
-		int val = card_value(card_name);
+		val = card_value(card_name);
 		if (val == -1)
 			continue;
-
 		card_count(val, &count);
 
 	} while (card_name[0] != 'X');	
