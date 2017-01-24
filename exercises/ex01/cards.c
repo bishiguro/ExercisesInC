@@ -1,3 +1,8 @@
+/* 
+Card Counting Program, derived from HeadFirstC 
+Bonnie Ishiguro
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 
