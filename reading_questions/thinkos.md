@@ -64,30 +64,79 @@ A process that runs in the background and provides operating system services.
 
 1) The Georgian alphabet has 33 letters.  How many bit are needed to specify a letter?
 
+2^6 values --> 6 bits
+
 2) In the UTF-16 character encoding, the binary representation of a character can take up to 32 bits.  
 Ignoring the details of the encoding scheme, how many different characters can be represented?
 
+2^32 = 4294967296 characters
+
 3) What is the difference between "memory" and "storage" as defined in Think OS?
+
+Memory, such as Random Access Memory, holds the data of a running process and is volatile, which means that its contents are lost when the computer shuts down.  Storage, found on an HDD or SSD, holds files that a process reads or writes to and is non-volatile.
 
 4) What is the difference between a GiB and a GB?  What is the percentage difference in their sizes?
 
+GiB = 2^30 bytes = 1073741824  
+GB = 10^9 bytes = 1000000000  
+7.11% difference
+
 5) How does the virtual memory system help isolate processes from each other?
+
+This systems isolates processes from each other because a process cannot generate a virtual address that maps to physical memory allocated to another process.
 
 6) Why do you think the stack and the heap are usually located at opposite ends of the address space?
 
-7) What Python data structure would you use to represent a sparse array?
+My guess is that having the stack and the heap start at opposite ends allows for them to having the maximum amount of room to grow, rather than each of them being limited by a set number of memory locations.
+
+7) What Python data structure would you use to represent a sparse array
+
+A dictionary - the occupied indices can be mapped to their corresponding values.
 
 8) What is a context switch?
 
+A context switch is the operating system's way of interrupting a currently running process, saving its state so that it can be resumed later, and then running another process.
+
 In this directory, you should find a subdirectory named `aspace` that contains `aspace.c`.  Run it on your computer and compare your results to mine.
   
+My results:  
+Address of main is 0x4005d6  
+Address of global is 0x60104c  
+Address of local is 0x7ffdf66530dc  
+Address of p is 0x6b6010  
+
+Allen's results:  
+Address of main is 0x40057c  
+Address of global is 0x60104c  
+Address of local is 0x7fffd26139c4  
+Address of p is 0x1c3b010
+
 1) Add a second call to `malloc` and check whether the heap on your system grows up (toward larger addresses).  
 
-2) Add a function that prints the address of a local variable, and check whether the stack grows down.  
+Address of main is 0x4005d6  
+Address of global is 0x60104c  
+Address of local is 0x7ffffbb24e04  
+Address of p is 0x1812010  
+Address of q is 0x18120a0  
+
+Yes, the address of q is a higher address than that of p.
+
+2) Add a function that prints the address of a local variable, and check whether the stack grows down.
+
+Address of local is 0x7ffc376033a4  
+Address of local is 0x7ffc37603380
+
+Yes, the stack grows down, allocating lower addresses.
 
 3) Choose a random number between 1 and 32, and allocate two chunks with that size.  
 How much space is there between them?  Hint: Google knows how to subtract hexadecimal numbers.
 
+void *p = malloc(10);  
+void *q = malloc(10);  
+
+Address of p is 0x908010  
+Address of q is 0x908030  
+Difference: 0x20
 
 ## Chapter 4
 
