@@ -18,3 +18,6 @@ aspace (Ch 3): https://github.com/bishiguro/ExercisesInC/blob/master/reading_que
 
 ### Exam question(s) and solution
 
+Reference exam_q1.c and exam_q1_solution.c.  
+
+Exam question: In exam_q1.c, there are two errors in the record_user function that cause the program to fail.  Identify and correct them, and explain the reasoning behind your modificiations.  Fill out the display_user_list function so that the program can display all recorded users.
