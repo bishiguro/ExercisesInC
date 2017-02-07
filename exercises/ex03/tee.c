@@ -8,7 +8,7 @@ Author: Bonnie Ishiguro
 #include <string.h>
 
 int main(int argc, char *argv[]) {
-	char mode[1] = "w"; // the default file access mode is write
+	char mode[2] = "w"; // the default file access mode is write
 
 	char ch;
 	while ((ch = getopt(argc, argv, "a")) != EOF) {
@@ -33,6 +33,7 @@ int main(int argc, char *argv[]) {
 
 	fprintf(fp, "%s\n", input); // print from input to the newly-created file
 	fprintf(stdout, "%s\n", input); // print from input to stdout (the  display)
+	fclose(fp);
 }
 
 /* 
