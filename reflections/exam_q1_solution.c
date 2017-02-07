@@ -11,15 +11,14 @@ struct user
 
 void display_user_list(struct user user_list[])
 {
+	
+	printf("\nUSERS: \n");
 	int i;
 	for (i=0; i < NUM_USERS; i=i+1)
-		printf("%s\n", user_list[i].name);
-}
-
-void display_user(struct user u) 
-{
-	printf("Name: %s\n", u.name);
-	printf("Age: %i\n", u.age);
+	{
+		printf("Name: %-24s", user_list[i].name);
+		printf("Age: %3i\n", user_list[i].age);
+	}
 }
 
 void record_user(struct user user_list[]) 
