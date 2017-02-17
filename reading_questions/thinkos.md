@@ -146,19 +146,33 @@ Difference: 0x20
 1) What abstractions do file systems provide?  Give an example of something that is logically 
 true about files systems but not true of their implementations.
 
+Files are byte-based, but the implementation of persistent storage is block-based.  The manner in which blocks are arranged and used varies.  On a HDD, blocks are arranged in sectors, which are arranged in tracks, which are in turn arranged in concentric circles on the disk.  On SSDs, blocks are numbered sequentially, and each block has a limited number of writes before becoming unreadable.  The file system does not deal directly with these abstracted-out details.
+
 2) What information do you imagine is stored in an `OpenFileTableEntry`?
 
+I’m guessing that an OpenFileTableEntry would store information about the file it represents, such as file size, time of creation and last modification, read, write, and execute permissions, and file owner.
+
 3) What are some of the ways operating systems deal with the relatively slow performance of persistent storage?
+
+Prefetching predicts which blocks a process will need to access and loads these blocks into memory before they are requested.  Buffering stores data in memory while writing to a file, rather than writing to disk at each change.  Caching copies recently used blocks in memory so that they can be accessed more quickly by a program.  These strategies all take advantage of the fact that accessing data from memory is significantly faster than accessing data from disk.
 
 4) Suppose your program writes a file and prints a message indicating that it is done writing.  
 Then a power cut crashes your computer.  After you restore power and reboot the computer, you find that the 
 file you wrote is not there.  What happened?
 
+What likely happened is that the data was stored in a cache but not yet written to disk.  The cache would have been cleared on power-off, and the file had not yet made it to permanent storage.
+
 5) Can you think of one advantage of a File Allocation Table over a UNIX inode?  Or an advantage of a inode over a FAT?
+
+I’m not sure, but perhaps inodes are more flexible for files that grow significantly in size over time, since they can have up to three indirection blocks for storing content.
 
 6) What is overhead?  What is fragmentation?
 
+Overhead is the amount of space in memory that the allocator uses.  Fragmentation is the unused space in memory that results when the block allocation system leaves some blocks unused or partially used.
+
 7) Why is the "everything is a file" principle a good idea?  Why might it be a bad idea?
+
+A benefit of this principle is that it allows for multiple applications of the “stream of bytes” abstraction, in addition to file systems.  UNIX pipes, which allow for process communication, and UNIX sockets, which allow for network communication, are two examples of systems that use this principle.  This may be a bad idea if the operating system in question is not constructed using the UNIX “small tools” approach, which might render the API not flexible enough for a broad range of programs.
 
 If you would like to learn more about file systems, a good next step is to learn about journaling file systems.  
 Start with [this Wikipedia article](https://en.wikipedia.org/wiki/Journaling_file_system), then 
