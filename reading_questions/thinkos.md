@@ -210,18 +210,29 @@ character at a time.  This optimization is made easier if the length of the stri
 
 1) Which memory management functions would you expect to take constant time?  Which ones take time proportional to the size of the allocated chunk?
 
+I would expect malloc and free to take constant time because they do not depend on the size of the memory chunk.  Calloc should take time proportional to the size of the allocated chuck because it clears every byte, and realloc would also in the case that the new size is larger than the current size or if there is not space available to expand the existing chunk.
+
 2) For each of the following memory errors, give an example of something that might go wrong:
 
 a) Reading from unallocated memory.
 
+If you read bytes from unallocated memory as a string but interpret them as a float, you might get an invalid, a very large, or a very small number.
+
 b) Writing to unallocated memory.
+
+Writing to unallocated memory triggers no errors at the time but may cause problems when it is read at a later point.  Since a significant amount of time can pass before this bad value is read, it can be difficult to track down the original cause of the program.
 
 c) Reading from a freed chunk.
 
+This would result in the same kinds of errors that you might see in the case of reading from unallocated memory.
+
 d) Writing to a freed chunk.
+
+This would result in the same kinds of errors that you might see in the case of writing to unallocated memory.
 
 e) Failing to free a chunk that is no longer needed.
 
+If you never free a previously allocated chunk, there are several possibilities that would cause a malloc call to fail.  The system might run out of physical memory, a process might reach a limit on the amount of space it can allocate, or a process might fill its virtual address space.
 
 3) Run
 
@@ -230,7 +241,11 @@ e) Failing to free a chunk that is no longer needed.
 to see a list of processes sorted by RSS, which is "resident set size", the amount of physical 
 memory a process has.  Which processes are using the most memory?
 
+Chrome, Compiz, Xorg, Evince, Sublime, and Gnome each take up more than 1% of memory.
+
 4) What's wrong with allocating a large number of small chunks?  What can you do to mitigate the problem?
+
+Malloc is not very space efficient for small chunks because the boundary tags and free list pointers that come with an allocated chunk take up space.  It might be better to allocate these small chunks together in arrays.
 
 If you want to know more about how malloc works, read 
 [Doug Lea's paper about dlmalloc](http://gee.cs.oswego.edu/dl/html/malloc.html)
