@@ -54,8 +54,10 @@ void print_list(Node **list) {
  * returns: int or -1 if the list is empty
  */
 int pop(Node **list) {
-    // FILL THIS IN!
-    return 0;
+    printf("pop: ");
+    Node *head = *list;
+    *list = head->next;
+    return head -> val;
 }
 
 
@@ -65,6 +67,7 @@ int pop(Node **list) {
  * val: value to add
  */
 void push(Node **list, int val) {
+    printf("push (%i): ", val);
     Node *head = make_node(val, *list);
     *list = head;
 }
