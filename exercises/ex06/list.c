@@ -65,7 +65,8 @@ int pop(Node **list) {
  * val: value to add
  */
 void push(Node **list, int val) {
-    // FILL THIS IN!
+    Node *head = make_node(val, *list);
+    *list = head;
 }
 
 
@@ -79,7 +80,30 @@ void push(Node **list, int val) {
  * returns: number of nodes removed
  */
 int remove_by_value(Node **list, int val) {
-    // FILL THIS IN!
+    printf("remove_by_value (%i): ", val);
+
+    Node *current = *list;
+    Node *current_prev = NULL; // at the head of the list
+
+    while (current != NULL) {
+        if (current->val == val) { // node to remove
+            if (current_prev != NULL) { // point the previous node to the node following the current
+                current_prev->next = current->next;
+            }
+            else { // make the next value the new head of the list
+                *list = current->next;
+            }
+        }
+
+        current_prev = current;
+        if (current->next != NULL) { // if not at the end of the list
+            current = current->next;
+        }
+        else {
+            current = NULL;
+        }   
+    }
+
     return 0;
 }
 
