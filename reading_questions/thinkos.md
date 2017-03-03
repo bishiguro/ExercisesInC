@@ -188,6 +188,11 @@ Also consider reading [this USENIX paper](https://www.usenix.org/legacy/event/us
 1) Suppose you have the value 128 stored as an unsigned 8-bit number.  What happens if you convert 
 it to a 16-bit number and accidentally apply sign extension?
 
+Unsigned 8-bit number: 10000000
+16-bit number with sign extension: 1111111110000000
+
+If I converted to a 16-bit number, I would add 8 0’s to the front for a positive number and 8 1’s to the front for a negative number.  Since operations on unsigned numbers don’t use sign extension and this number starts with a 1, it would be assumed to be negative.  The first 8 bits of the resulting number would therefore all be 1’s.
+
 2) Write a C expression that computes the two's complement of 12 using the XOR bitwise operator. 
 Try it out and confirm that the result is interpreted as -12.
 
@@ -196,6 +201,22 @@ sign bit or two's complement?
 
 4) Following the example in Section 5.4, write the 32-bit binary representation of -13 in single precision 
 IEEE floating-point.  What would you get if you accidentally interpreted this value as an integer?
+
+13 in binary: 1101 = 1.**101** * 2^**3**  
+
+Sign (1 bit): 1  
+Exponent (8 bits): 3 + 127-bit bias = 130 = 10000010  
+Coefficient (23 bits): 101 = 00000000000000000000101  
+
+-13 in 32-bit binary, single precision 1EEE floating-point: **1 10000010 00000000000000000000101**
+ 
+If I interpreted this value as an integer:
+
+Original value: 	11000001000000000000000000000101  
+Minus 1: 			11000001000000000000000000000100  
+Flip bits: 			00111110111111111111111111111011  
+Unsigned integer: 	1056964603  
+Signed integer: 	**-1056964603**  
 
 5) Write a function that takes a string and converts from lower-case to upper-case by flipping the sixth bit.  
 As a challenge, you can make a faster version by reading the string 32 or 64 bits at a time, rather than one
