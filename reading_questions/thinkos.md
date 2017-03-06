@@ -199,6 +199,8 @@ Try it out and confirm that the result is interpreted as -12.
 3) Can you guess why IEEE floating-point uses biased integers to represent the exponent rather than a
 sign bit or two's complement?
 
+It seems that biased integers for exponents are used to make signed floating-point integers more easily comparable.  Negative exponents are used to represent very small values, but a negative number in two’s complement would make this very small number appear very large.  A bias puts the exponent within an unsigned range that can be more easily compared with other exponents.
+
 4) Following the example in Section 5.4, write the 32-bit binary representation of -13 in single precision 
 IEEE floating-point.  What would you get if you accidentally interpreted this value as an integer?
 
