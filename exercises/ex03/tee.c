@@ -7,6 +7,14 @@ Author: Bonnie Ishiguro
 #include <unistd.h>
 #include <string.h>
 
+/* 
+tee [OPTION] ... [FILE] ...
+
+-a: appends to the given file
+FILE: the file to write or append text to
+
+*/
+
 int main(int argc, char *argv[]) {
 	char mode[2] = "w"; // default file access mode is write
 
