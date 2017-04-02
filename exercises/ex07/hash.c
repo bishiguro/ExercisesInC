@@ -3,6 +3,10 @@
 Copyright 2016 Allen Downey
 License: Creative Commons Attribution-ShareAlike 3.0
 
+Bonnie Ishiguro
+Exercise 7
+April 1, 2017
+
 */
 
 #include <stdio.h>
@@ -179,7 +183,14 @@ int hash_hashable(Hashable *hashable)
  */
 int equal_int (void *ip, void *jp)
 {
-    // FILL THIS IN!
+    // Cast void pointers to ints
+    int i = *(int*) ip;
+    int j = *(int*) jp;
+
+    // Check if equal
+    if (i == j) {
+        return 1;
+    }
     return 0;
 }
 
@@ -193,7 +204,15 @@ int equal_int (void *ip, void *jp)
  */
 int equal_string (void *s1, void *s2)
 {
-    // FILL THIS IN!
+    // Cast void pointers to strings
+    char** str1 = (char**) s1;
+    char** str2 = (char**) s2;
+
+    // Check if equal
+    int ret = strcmp(*str1, *str2);
+    if (ret == 0) {
+        return 1;
+    }
     return 0;
 }
 
@@ -208,10 +227,13 @@ int equal_string (void *s1, void *s2)
  */
 int equal_hashable(Hashable *h1, Hashable *h2)
 {
-    // FILL THIS IN!
+    // Check if equal with Hashable's equal function
+    int key_equal = h1->equal(h1, h2);
+    if (key_equal) {
+        return 1;
+    }
     return 0;
 }
-
 
 /* Makes a Hashable int. 
  *
@@ -229,7 +251,7 @@ Hashable *make_hashable_int (int x)
 }
 
 
-/* Makes a Hashable int. 
+/* Makes a Hashable string. 
  *
  * Stores a reference to the string (not a copy).
  * 
@@ -297,7 +319,18 @@ Node *prepend(Hashable *key, Value *value, Node *rest)
 /* Looks up a key and returns the corresponding value, or NULL */
 Value *list_lookup(Node *list, Hashable *key)
 {
-    // FILL THIS IN!
+    // Keep track of current position in list
+    Node *current_node = list;
+    while (current_node != NULL) {
+        // Check if current node has desired key
+        int equal = equal_hashable(current_node->key, key);
+        if (equal) {
+            // If keys match, return corresponding value
+            return current_node->value;
+        }
+        // If no match, advance to next node in list
+        current_node = current_node->next;
+    }
     return NULL;
 }
 
@@ -342,15 +375,21 @@ void print_map(Map *map)
 /* Adds a key-value pair to a map. */
 void map_add(Map *map, Hashable *key, Value *value)
 {
-    // FILL THIS IN!
+    // Compute hash value for the given key
+    int hash = hash_hashable(key);
+    // Insert key, value pair into map indexed with hashes
+    map->lists[hash] = prepend(key, value, map->lists[hash]);
 }
 
 
 /* Looks up a key and returns the corresponding value, or NULL. */
 Value *map_lookup(Map *map, Hashable *key)
 {
-    // FILL THIS IN!
-    return NULL;
+    // Compute hash value for the given key
+    int hash = hash_hashable(key);
+    // Look up value in map based on the hashed key
+    Value *value = list_lookup(map->lists[hash], key);
+    return value;
 }
 
 
@@ -374,19 +413,29 @@ int main ()
     Node *node1 = make_node(hashable1, value1, NULL);
     print_node (node1);
 
+    printf("--------\n");
+
     Value *value2 = make_string_value ("Orange");
     Node *list = prepend(hashable2, value2, node1);
     print_list (list);
 
+    printf("--------\n");
+    
     // run some test lookups
     Value *value = list_lookup (list, hashable1);
     print_lookup(value);
 
+    printf("--------\n");
+
     value = list_lookup (list, hashable2);
     print_lookup(value);
 
+    printf("--------\n");
+
     value = list_lookup (list, hashable3);
     print_lookup(value);
+
+    printf("--------\n");
 
     // make a map
     Map *map = make_map(10);
@@ -395,6 +444,8 @@ int main ()
 
     printf ("Map\n");
     print_map(map);
+
+    printf("--------\n");
 
     // run some test lookups
     value = map_lookup(map, hashable1);
