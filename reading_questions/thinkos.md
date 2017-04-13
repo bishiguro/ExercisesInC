@@ -284,10 +284,28 @@ If you want to know more about how malloc works, read
 
 1) What happens if a program writes a new value into the program counter?
 
+The program counter contains the memory address of the next instruction in the program.  Writing a new value into the program counter will cause the flow of execution to jump to another location in the program.
+
 2) What is the fundamental problem caches are meant to solve?
+
+Caches are meant to solve the "memory bottleneck" problem, which is caused by the fact that the typical CPU runs much faster than the process of transferring data to and from memory.  Although the CPU initiates a new instruction every 0.5 ns, it has to wait 10 ns to fetch an instruction and another 10 ns to load data.  A cache is a small, fast memory that stores values that the CPU has previously fetched from memory.  This allows for fewer total memory accesses, reducing the run time of a program.
 
 3) If cache access time is 1 ns and memory access time is 10 ns, what is the average
 access time of a program with hit rate 50%?  How about 90%?
+
+h = 0.5  
+T_h = 1 ns  
+m = 0.5  
+T_m = 10 ns  
+
+0.5 * 1 + 0.5 * 10 = 5.5 ns
+
+h = 0.9  
+T_h = 1 ns  
+m = 0.1  
+T_m = 10 ns
+
+0.9 * 1 + 0.1 * 10 = 1.9 ns
 
 4) The book gives several examples of programming language features, like loops, that tend 
 to improve locality in the access pattern of instructions and/or data.  Can you think of other examples?  
@@ -295,10 +313,14 @@ Or counter-examples that might decrease locality?
 
 5)  If you refactor a program to improve locality, would you say the program is "cache aware"?  Why not?
 
+A "cache aware" algorithm takes advantage of the architecture of the specific processor, such as cache size or block size.  A program can improve locality without taking the details of the underlying hardware into account.
+
 6) See if you can estimate the cost of a memory cache by comparing the prices of two similar CPUs with 
 different cache sizes.
 
 7) Why are cache policies generally more complex at the bottom of the memory hierarchy?
+
+Cache policies are more complex at the bottom of the hierarchy because there is more time to make decisions, since they don't have to be as fast.
 
 8) Can you think of a strategy operating systems could use to avoid thrashing or recover when it occurs?
 
