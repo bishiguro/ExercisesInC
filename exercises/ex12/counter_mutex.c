@@ -3,6 +3,11 @@
 
        Copyright 2014 Allen B. Downey
        License: Creative Commons Attribution-ShareAlike 3.0
+
+Bonnie Ishiguro
+Exercise 12
+April 17, 2017
+
 */
 
 #include <stdio.h>
@@ -171,9 +176,11 @@ void child_code (Shared *shared)
 	        return;
 	    }
 
+        // block before incrementing array element and counter
         sem_wait(shared->sem);
 	    shared->array[shared->counter]++;
 	    shared->counter++;
+        // unblock
         sem_signal(shared->sem);
 
 	    if (shared->counter % 100000 == 0) {
@@ -242,3 +249,21 @@ int main ()
     check_array (shared);
     return 0;
 }
+
+/* Exercise Question:
+
+How much overhead does the synchronization impose?
+
+time ./counter 
+real    0m11.827s
+user    0m19.968s
+sys 0m0.600s
+
+time ./counter_mutex
+real    0m32.845s
+user    0m29.040s
+sys 0m27.132s
+
+Based on the "user" time, which is the amount of CPU time spent within the process, synchronization imposes approximately 9 seconds of overhead.
+
+*/
