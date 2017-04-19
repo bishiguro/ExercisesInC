@@ -339,17 +339,27 @@ If you can find the technical specifications for your computer, see if your infe
 
 1) What is the kernel's most basic task?
 
+The kernel's most basic task is to handle interrupts.  Interrupts are events that stop the normal instruction cycle and cause the flow of exection to jump to a section of code, called an interrupt handler.  A network interface could cause an interrupt to handle a newly arrived packet of data, or a floating point error in software could trigger an interrupt.
+
 2) When an interrupt occurs, what part of the hardware state is saved by hardware?
+
+The hardware saves the program counter so that the kernel knows where to resume once the program regains control of the CPU.
 
 3) What is the difference between an interrupt and a context switch?
 
+Interrupt handlers only have to save the registers that they are planning to use, which makes them fast.  Context switches, on the other hand, require the kernel to save all of the registers, since it will not know which a process will use, and possibly to clear the MMU.  It also takes time for the new process to load data into the cache.  Context switches also involve the scheduler, since processes are allowed to run for short periods of time before either switching or continuing execution.
+
 4) Give an example of an event that might cause a process to move from the blocked to the ready state.
+
+A blocked process is one that cannot be run because it is waiting for a future event to complete.  An example that might cause a process to move from blocked to ready is the interrupt that handles a disk request.  The interrupt handler figures out which process was waiting for the data stored on disk and changes its state to ready.
 
 5) Why might a scheduler want to give higher priority to an I/O bound process?
 
+An I/O bound process might be given higher priority because it would likely wait longer than other processes for the data or event it needs to proceed.
+
 When I make French toast, I usually make a batch of 12 slices.  But my griddle only has room for 8 slices.  Each piece of toast has to cook for 5 minutes on each side.  How can I schedule 12 slices onto 8 "cores" to minimize the elapsed time to cook all 12 slices?  (Note: this question is not hypothetical; this is really how I make French toast.)
 
-
+Cook the first side of 8 slices (5 minutes).  Flip 4 of those slices, move the other 4 off the griddle, and start cooking the first side of the remaining 4 slices (5 minutes).  Remove the 4 finished slices, flip the 4 half-cooked, and start cooking the other halves of the 4 removed from the griddle in the last step (5 minutes).
 
 ## Chapter 9
 
@@ -360,16 +370,27 @@ As you read Chapter 9, you should compile and run the example code.  By the natu
 
 1) Why does each thread have its own stack?
 
+Each thread has its own stack so that they can call functions without interfering with each other.
+
 2) What does the `gcc flag -lpthread` do?
+
+The -lpthread flag allows you to compile with the Pthread library.
 
 3) What does the argument of `pthread_exit` do?
 
+The argument of pthread_exit can be used to pass a value to the thread that joins with the calling thread.
+
 4) Normally the same thread that created a thread also waits to join it.  What happens if another thread tries to join a thread it did not create?
+
+The non-parent calling thread would block until the thread it joined terminates.  Any thread can join any other thread, not just parents of a thread.
 
 5) What goes wrong if several threads try to increment a shared integer at the same time?
 
+Without synchronization, multiple threads can read the value of the shared integer before any of them increment it, which results in skipped output values.
+
 6) What does it mean to "lock a mutex"?
 
+Locking a mutex causes all other threads to be blocked.
 
 
 ## Chapter 10
