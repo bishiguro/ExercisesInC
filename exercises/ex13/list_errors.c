@@ -42,6 +42,8 @@ int pop(Node **head) {
 
     next_node = (*head)->next;
     retval = (*head)->val;
+
+    free(*head);
     *head = next_node;
 
     return retval;
@@ -129,7 +131,6 @@ Node *make_something() {
     Node *node3 = make_node(3, NULL);
 
     int val = pop(&node1);
-    // free(node1);
 
     push(&node2, val);
     node3->next = node2;
