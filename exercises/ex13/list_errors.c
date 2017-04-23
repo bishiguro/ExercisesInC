@@ -17,6 +17,7 @@ typedef struct node {
 
 Node *make_node(int val, Node *next) {
     Node *node = malloc(sizeof(Node));
+    printf("malloc: %i\n", val);
     node->val = val;
     node->next = next;
     return node;
@@ -122,15 +123,34 @@ int insert_by_index(Node **head, int val, int index) {
 
 // Makes a mysterious data structure.
 Node *make_something() {
+    
     Node *node1 = make_node(1, NULL);
     Node *node2 = make_node(2, NULL);
     Node *node3 = make_node(3, NULL);
 
     int val = pop(&node1);
+    // free(node1);
+
     push(&node2, val);
     node3->next = node2;
 
+    print_list(node3); //
+
     return node3;
+}
+
+void free_list(Node *head) {
+    Node *current_node = head;
+    while (current_node != NULL) {
+        Node *next_node = current_node->next;
+        
+        int val = current_node->val;
+        printf("freeing %i\n", val);
+
+        free(current_node);
+        current_node = next_node;
+    }
+    printf("\n");
 }
 
 int main() {
@@ -151,6 +171,7 @@ int main() {
 
     printf("test_list\n");
     print_list(test_list);
+    free_list(test_list);
 
     // make an empty list
     printf("empty\n");
@@ -159,9 +180,12 @@ int main() {
     // add an element to the empty list
     insert_by_index(&empty, 1, 0);
     print_list(empty);
+    free_list(empty);
 
     Node *something = make_something();
-    free(something);
+    free_list(something);
+
+    // free(something);
 
     return 0;
 }
