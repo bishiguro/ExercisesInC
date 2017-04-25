@@ -8,6 +8,9 @@ http://www.ibm.com/developerworks/linux/tutorials/l-glib/section5.html
 
 Note: this version leaks memory.
 
+Bonnie Ishiguro
+April 24, 2017
+
 */
 
 #include <stdio.h>
@@ -73,7 +76,6 @@ void incr (GHashTable* hash, gchar *key)
     	gint *val1 = g_new (gint, 1);
     	*val1 = 1;
     	g_hash_table_insert (hash, key, val1);
-        // g_free(val1);
     } 
     else {
     	*val += 1;
